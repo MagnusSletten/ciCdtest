@@ -15,8 +15,8 @@ jobs:
 
     - name: Pull Docker image
       run: |
-        docker pull lamadrama/lamafiles:1.0
+        sudo docker pull lamadrama/lamafiles:1.0
 
     - name: Run tests
       run: |
-        docker run --rm lamadrama/lamafiles:1.0
+        sudo docker run --rm lamadrama/lamafiles:1.0
