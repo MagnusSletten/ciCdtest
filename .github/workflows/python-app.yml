@@ -1,22 +1,31 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: CI
+name: CI/CD Pipeline
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: cloudtest
-
+  build-and-push:
+    runs-on: laptop
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Pull Docker image
-      run: |
-        sudo docker pull lamadrama/lamafiles:1.0
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
 
-    - name: Run tests
-      run: |
-        sudo docker run --rm lamadrama/lamafiles:1.0
+      - name: Build Docker image
+        run: |
+          docker build -t cicdtest .
+
+      - name: Run Docker container
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          docker run -e GH_TOKEN=$GH_TOKEN cicdtest
