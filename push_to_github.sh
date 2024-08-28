@@ -29,8 +29,8 @@ fi
 # Add changes
 git add database.txt
 
-# Commit changes
-git commit -m "[skip ci] Update database.txt with sorted data"
+# Pull the latest changes to avoid conflicts
+git pull --rebase https://x-access-token:${GH_TOKEN}@github.com/username/repository.git main
 
-# Push changes to the GitHub repository using the access token
-git push origin main
+# Push changes to the GitHub repository
+git push https://x-access-token:${GH_TOKEN}@github.com/username/repository.git main
