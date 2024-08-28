@@ -18,6 +18,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "GH_TOKEN is: $GH_TOKEN"
+          # Additional debug info
+          echo "Home directory: $HOME"
+          echo "Current directory: $(pwd)"
+          echo "Listing environment variables:"
+          env
 
       - name: Build Docker image
         run: |
