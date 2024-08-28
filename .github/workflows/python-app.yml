@@ -13,7 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-    
-      - name: secret test
-        run: echo "${{ secrets.GH_TOKEN }}"
-      
+      - name: Check if GH_TOKEN is set
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "GH_TOKEN is: $GH_TOKEN"
+
+      - name: Build Docker image
+        run: |
+          docker build -t cicdtest .
+
+      - name: Run Docker container
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Pass the token to the job environment
+        run: |
+          docker run -e GH_TOKEN=$GH_TOKEN cicdtest  # Pass the token into the container
