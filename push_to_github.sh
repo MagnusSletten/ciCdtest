@@ -13,43 +13,40 @@ git config --global init.defaultBranch main
 git config --global user.name "$GITHUB_USERNAME"
 git config --global user.email "$GITHUB_EMAIL"
 
-# Set the working directory explicitly
-WORKDIR="/CICDTEST"
-
-cd $WORKDIR
-
 # Initialize a new Git repository if it doesn't already exist
 if [ ! -d .git ]; then
     git init
     git remote add origin https://$GH_TOKEN@github.com/MagnusSletten/ciCdtest.git
-    git fetch origin main
-    git checkout -b main
-else
-    git fetch origin main
+fi
+
+# Fetch the latest changes from the remote repository
+git fetch origin
+
+# Check if the main branch exists, create it if it doesn't
+if git show-ref --verify --quiet refs/heads/main; then
     git checkout main
-    git reset --hard origin/main
+    git pull origin main
+else
+    git checkout -b main
 fi
 
-# Ensure the files are in the correct location
-# If your files are expected to be in the /CICDTEST directory directly, you need to move them after cloning/pulling
-# In this case, since we're working in /CICDTEST, make sure no nested directories are created
+# Attempt to merge changes from remote main branch
+git merge origin/main --no-edit || { echo "Merge conflict occurred"; exit 1; }
 
-# Check and move files if necessary
-if [ -d "ciCdtest" ]; then
-    mv ciCdtest/* .
-    rmdir ciCdtest
-fi
-
-# Check if the necessary files exist
-if [ ! -f database.txt ]; then
-    echo "database.txt not found in the current directory"
+# Add changes (here assuming database.txt is the file you're tracking)
+if [ -f database.txt ]; then
+    git add database.txt
+else
+    echo "database.txt not found. Ensure the file exists before committing."
     exit 1
 fi
 
-# Add changes
-git add database.txt
+# Add other files as needed, e.g., data.txt
+if [ -f data.txt ]; then
+    git add data.txt
+fi
 
-# Commit changes
+# Commit changes if there are any
 if git diff-index --quiet HEAD --; then
     echo "No changes to commit"
 else
