@@ -13,11 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      
-      - name: Build Docker image
-        shell: bash  # Use Bash for Docker commands
-        run: |
-          docker build -t cicdtest .
+    
       - name: secret test
         run: echo "${{ secrets.GH_TOKEN }}"
       
