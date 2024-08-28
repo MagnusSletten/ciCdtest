@@ -21,6 +21,6 @@ RUN chmod +x /CICDTEST/push_to_github.sh
 RUN echo "GH_TOKEN is set to: $GH_TOKEN"
 
 
-# Run the Python script and then the GitHub push script
+# Run the Python script and then the GitHub push scrip
 CMD ["bash", "-c", "python /CICDTEST/sort_data.py && /CICDTEST/push_to_github.sh"]
 
