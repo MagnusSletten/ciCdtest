@@ -6,6 +6,9 @@ GITHUB_USERNAME="MagnusSletten"  # Your GitHub username
 GITHUB_EMAIL="magnuskonge@gmail.com"  # Your GitHub email
 GH_TOKEN=${GH_TOKEN}  # Use the environment variable for the access token
 
+# Set default branch to main for this session
+git config init.defaultBranch main
+
 # Git configuration
 git config --global user.name "$GITHUB_USERNAME"
 git config --global user.email "$GITHUB_EMAIL"
