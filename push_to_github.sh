@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Configuration
-GITHUB_REPO_URL="https://github.com/MagnusSletten/ciCdtest"  # Replace with your GitHub repository URL
-GITHUB_USERNAME="MagnusSletten"  # Replace with your GitHub username
-GITHUB_EMAIL="magnuskonge@gmail.com"  # Replace with your GitHub email
+GITHUB_REPO_URL="https://github.com/MagnusSletten/ciCdtest.git"  # Use the correct GitHub repository URL
+GITHUB_USERNAME="MagnusSletten"  # Your GitHub username
+GITHUB_EMAIL="magnuskonge@gmail.com"  # Your GitHub email
 GH_TOKEN=${GH_TOKEN}  # Use the environment variable for the access token
 
 # Git configuration
@@ -13,10 +13,11 @@ git config --global user.email "$GITHUB_EMAIL"
 # Initialize a new Git repository if it doesn't already exist
 if [ ! -d .git ]; then
     git init
-    git remote add origin $GITHUB_REPO_URL
-    git fetch
-    git checkout main  # Adjust if using a different default branch name
+    git remote add origin https://$GH_TOKEN@github.com/MagnusSletten/ciCdtest.git
 fi
+
+# Fetch and checkout the main branch, create it if it doesn't exist
+git fetch origin main || git checkout -b main
 
 # Add changes
 git add database.txt
@@ -24,5 +25,5 @@ git add database.txt
 # Commit changes
 git commit -m "[skip ci] Update database.txt with sorted data"
 
-# Push changes to the GitHub repository using the access tokens
-git push https://$GH_TOKEN@github.com/your-username/your-repo.git main
+# Push changes to the GitHub repository using the access token
+git push origin main
