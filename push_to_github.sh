@@ -30,7 +30,8 @@ fi
 git add database.txt
 
 # Pull the latest changes to avoid conflicts
-git pull --rebase https://x-access-token:${GH_TOKEN}@github.com/username/repository.git main
+# Pull the latest changes to avoid conflicts
+git pull --rebase https://x-access-token:${GH_TOKEN}@$GITHUB_REPO_URL main
 
 # Push changes to the GitHub repository
-git push https://x-access-token:${GH_TOKEN}@github.com/username/repository.git main
+git push https://x-access-token:${GH_TOKEN}@$GITHUB_REPO_URL main
