@@ -13,27 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Verify secrets access (PowerShell)
-        shell: pwsh
-        run: |
-          Write-Output "Checking if secrets are available..."
-          # Directly try to access and print the secret value
-          Write-Output "GH_TOKEN is: ${{ secrets.GH_TOKEN }}"
-          # Set the environment variable explicitly for further steps
-          $env:GH_TOKEN = "${{ secrets.GH_TOKEN }}"
-          Write-Output "GH_TOKEN from env variable is: $env:GH_TOKEN"
-          
-      - name: List environment variables (PowerShell)
-        shell: pwsh
-        run: |
-          Write-Output "Listing environment variables for further check:"
-          Get-ChildItem Env:
-
+      
       - name: Build Docker image
         shell: bash  # Use Bash for Docker commands
         run: |
           docker build -t cicdtest .
-
+      - name: secret test
+        run: echo "${{ secrets.GH_TOKEN }}"
       - name: Run Docker container
         shell: bash  # Running Docker with Bash
         env:
