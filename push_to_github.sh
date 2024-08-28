@@ -19,8 +19,12 @@ if [ ! -d .git ]; then
     git remote add origin https://$GH_TOKEN@github.com/MagnusSletten/ciCdtest.git
 fi
 
-# Fetch and checkout the main branch, create it if it doesn't exist
-git fetch origin main || git checkout -b main
+# Check if the main branch exists, create it if it doesn't
+if ! git rev-parse --verify main > /dev/null 2>&1; then
+    git checkout -b main
+else
+    git checkout main
+fi
 
 # Add changes
 git add database.txt
