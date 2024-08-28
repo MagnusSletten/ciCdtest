@@ -13,40 +13,34 @@ git config --global init.defaultBranch main
 git config --global user.name "$GITHUB_USERNAME"
 git config --global user.email "$GITHUB_EMAIL"
 
-# Initialize a new Git repository if it doesn't already exist
-if [ ! -d .git ]; then
-    git init
-    git remote add origin https://$GH_TOKEN@github.com/MagnusSletten/ciCdtest.git
+# Set the working directory explicitly
+WORKDIR="/CICDTEST"
+REPO_DIR="$WORKDIR/ciCdtest"
+
+# Remove the existing repo directory if it exists to start fresh
+if [ -d "$REPO_DIR" ]; then
+    rm -rf "$REPO_DIR"
 fi
 
-# Fetch the latest changes from the remote repository
-git fetch origin
+# Clone the repository
+git clone https://$GH_TOKEN@github.com/MagnusSletten/ciCdtest.git "$REPO_DIR"
 
-# Check if the main branch exists, create it if it doesn't
-if git show-ref --verify --quiet refs/heads/main; then
-    git checkout main
-    git pull origin main
-else
-    git checkout -b main
-fi
+# Navigate to the repository directory
+cd "$REPO_DIR"
 
-# Attempt to merge changes from remote main branch
-git merge origin/main --no-edit || { echo "Merge conflict occurred"; exit 1; }
+# Ensure we are on the main branch
+git checkout main
 
-# Add changes (here assuming database.txt is the file you're tracking)
-if [ -f database.txt ]; then
-    git add database.txt
-else
-    echo "database.txt not found. Ensure the file exists before committing."
+# Check if the necessary files exist
+if [ ! -f database.txt ]; then
+    echo "database.txt not found in the current directory"
     exit 1
 fi
 
-# Add other files as needed, e.g., data.txt
-if [ -f data.txt ]; then
-    git add data.txt
-fi
+# Add and commit changes
+git add database.txt
 
-# Commit changes if there are any
+# Check if there are any changes to commit
 if git diff-index --quiet HEAD --; then
     echo "No changes to commit"
 else
