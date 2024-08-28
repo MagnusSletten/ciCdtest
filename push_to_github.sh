@@ -24,5 +24,5 @@ git add database.txt
 # Commit changes
 git commit -m "[skip ci] Update database.txt with sorted data"
 
-# Push changes to the GitHub repository using the access token
+# Push changes to the GitHub repository using the access tokens
 git push https://$GH_TOKEN@github.com/your-username/your-repo.git main
