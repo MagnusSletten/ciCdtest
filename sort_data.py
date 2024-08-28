@@ -1,6 +1,7 @@
 def reformatData(data):
-    data = data.sort()
-    return data
+    newData = data.sort()
+    return newData
+    
 
 if __name__ == "__main__":
     # Step 1: Read numbers from data.txt
