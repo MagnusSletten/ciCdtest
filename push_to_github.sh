@@ -25,27 +25,11 @@ fi
 # Clone the repository
 git clone https://$GH_TOKEN@github.com/MagnusSletten/ciCdtest.git "$REPO_DIR"
 
-# Navigate to the repository directory
-cd "$REPO_DIR"
+cd $WORKDIR
+cp database.txt $REPO_DIR/database.txt
 
-# Ensure we are on the main branch
-git checkout main
+cd $REPO_DIR
 
-# Check if the necessary files exist
-if [ ! -f database.txt ]; then
-    echo "database.txt not found in the current directory"
-    exit 1
-fi
-
-# Add and commit changes
-git add database.txt
-
-# Check if there are any changes to commit
-if git diff-index --quiet HEAD --; then
-    echo "No changes to commit"
-else
-    git commit -m "[skip ci] Automated update by CI/CD pipeline"
-fi
-
-# Push changes to the GitHub repository
-git push origin main || { echo "Failed to push changes"; exit 1; }
+git add .
+git commit -m "[skip ci] Automated update by CI/CD pipeline"
+git push 
