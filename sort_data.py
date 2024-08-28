@@ -1,5 +1,5 @@
 def reformatData(data):
-    data.sort()
+    data = data.sort()
     return data
 
 if __name__ == "__main__":
