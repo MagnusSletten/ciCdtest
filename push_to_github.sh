@@ -3,7 +3,7 @@
 # Configuration
 GITHUB_REPO_URL="https://github.com/MagnusSletten/ciCdtest.git"  # Use the correct GitHub repository URL
 GITHUB_USERNAME="MagnusSletten"  # Your GitHub username
-GITHUB_EMAIL="magnuskonge@gmail.com"  # Your GitHub email
+GITHUB_EMAIL="magnus.elias.sletten@gmail.com"  # Your GitHub email
 GH_TOKEN=${GH_TOKEN}  # Use the environment variable for the access token
 
 # Set default branch to main for this session
