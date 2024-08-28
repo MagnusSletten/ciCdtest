@@ -16,21 +16,21 @@ jobs:
       - name: Check if GH_TOKEN is set
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        shell: pwsh
+        shell: powershell
         run: |
           if ($env:GH_TOKEN -eq "") {
-            echo "GH_TOKEN is not set!"
+            Write-Output "GH_TOKEN is not set!"
           } else {
-            echo "GH_TOKEN is set!"
+            Write-Output "GH_TOKEN is set!"
           }
 
       - name: Debug environment variables
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        shell: pwsh
+        shell: powershell
         run: |
-          echo "Environment variable check:"
-          echo $env:GH_TOKEN  # Print the environment variable for debugging in PowerShell
+          Write-Output "Environment variable check:"
+          Write-Output $env:GH_TOKEN  # Print the environment variable for debugging in PowerShell
 
       - name: Build Docker image
         run: |
@@ -39,6 +39,6 @@ jobs:
       - name: Run Docker container
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Pass the token to the job environment
+        shell: powershell
         run: |
           docker run -e GH_TOKEN=$env:GH_TOKEN cicdtest  # Pass the token into the container
-        shell: pwsh
