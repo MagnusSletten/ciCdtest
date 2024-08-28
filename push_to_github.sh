@@ -26,12 +26,17 @@ else
     git checkout main
 fi
 
-# Add changes
+# Fetch the latest changes from the remote repository to avoid conflicts
+git fetch origin main
+
+# Merge the latest changes into the current branch
+git merge origin/main --no-edit
+
+# Add changes (here assuming database.txt is the file you're tracking)
 git add database.txt
 
-# Pull the latest changes to avoid conflicts
-# Pull the latest changes to avoid conflicts
-git pull --rebase https://x-access-token:${GH_TOKEN}@$GITHUB_REPO_URL main
+# Commit changes
+git commit -m "[skip ci] Automated update by CI/CD pipeline"
 
 # Push changes to the GitHub repository
-git push https://x-access-token:${GH_TOKEN}@$GITHUB_REPO_URL main
+git push origin main
