@@ -7,7 +7,7 @@ GITHUB_EMAIL="magnus.elias.sletten@gmail.com"  # Your GitHub email
 GH_TOKEN=${GH_TOKEN}  # Use the environment variable for the access token
 
 # Set default branch to main for this session
-git config init.defaultBranch main
+git config --global init.defaultBranch main
 
 # Git configuration
 git config --global user.name "$GITHUB_USERNAME"
@@ -17,14 +17,15 @@ git config --global user.email "$GITHUB_EMAIL"
 if [ ! -d .git ]; then
     git init
     git remote add origin https://$GH_TOKEN@github.com/MagnusSletten/ciCdtest.git
-fi
-
-# Check if the main branch exists, create it if it doesn't
-if ! git rev-parse --verify main > /dev/null 2>&1; then
+    git fetch origin main
     git checkout -b main
 else
     git checkout main
 fi
+
+# Ensure that the working directory is clean
+git reset --hard
+git clean -fd
 
 # Fetch the latest changes from the remote repository to avoid conflicts
 git fetch origin main
