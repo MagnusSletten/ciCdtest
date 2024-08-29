@@ -13,7 +13,7 @@ if __name__ == "__main__":
             content = file.read().strip() 
             complete += content
 
-        result = reformatData(content)
+        result = reformatData(complete)
        
         with open("database.txt", "w") as file:
             file.write(result)  
