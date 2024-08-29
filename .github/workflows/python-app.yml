@@ -13,25 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check if GH_TOKEN is set
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        shell: powershell
-        run: |
-          if ($env:GH_TOKEN -eq "") {
-            Write-Output "GH_TOKEN is not set!"
-          } else {
-            Write-Output "GH_TOKEN is set!"
-          }
-
-      - name: Debug environment variables
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        shell: powershell
-        run: |
-          Write-Output "Environment variable check:"
-          Write-Output $env:GH_TOKEN  # Print the environment variable for debugging in PowerShell
-
       - name: Build Docker image
         run: |
           docker build -t cicdtest .
