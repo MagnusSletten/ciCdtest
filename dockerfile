@@ -7,6 +7,7 @@ WORKDIR /CICDTEST
 # Copy necessary files to the container
 COPY sort_data.py /CICDTEST/sort_data.py
 COPY data.txt /CICDTEST/data.txt
+COPY database.txt /CICDTEST/data.txt
 COPY push_to_github.sh /CICDTEST/push_to_github.sh
 
 # Install necessary tools
