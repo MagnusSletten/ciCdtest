@@ -4,8 +4,14 @@ def reformatData(number):
 
 if __name__ == "__main__":
     try: 
+        complete = ""
         with open("data.txt", "r") as file:
             content = file.read().strip() 
+            complete += content
+
+        with open("database.txt", "r") as file:
+            content = file.read().strip() 
+            complete += content
 
         result = reformatData(content)
        
