@@ -25,7 +25,7 @@ jobs:
         run: echo "${{ inputs.yaml_content }}" > input.yaml
 
       - name: Run formatting script
-        run: python formatting.py
+        run: python formating.py
         env:
           INPUT_FILE: input.yaml
           OUTPUT_FILE: temp.yaml
