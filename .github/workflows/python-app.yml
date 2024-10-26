@@ -13,10 +13,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Download YAML file
-        run: |
-          curl -L ${{ inputs.yaml_url }} -o temp.yaml
-          cat temp.yaml
+      - name: Write YAML content to file
+        run: echo "${{ inputs.yaml_content }}" > temp.yaml
 
       - name: Configure Git
         run: |
@@ -30,4 +28,3 @@ jobs:
           git push origin HEAD:${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
