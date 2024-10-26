@@ -25,12 +25,17 @@ jobs:
         run: echo "${{ inputs.yaml_content }}" > input.yaml
 
       - name: Run formatting script
-        run: python formating.py
+        run: python formatting.py
         env:
           INPUT_FILE: input.yaml
           OUTPUT_FILE: temp.yaml
 
-      - name: Commit and push formatted YAML
+      - name: Configure Git
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and Push formatted YAML
         run: |
           git add temp.yaml
           git commit -m "Add formatted YAML file from workflow"
