@@ -1,17 +1,20 @@
+import os
 import yaml
 
-def format_to_yaml(single_line_data):
-    # Initialize an empty dictionary
+def format_to_yaml(input_file, output_file):
+    # Read the input YAML string
+    with open(input_file, 'r') as f:
+        single_line_data = f.read()
+
+    # Process the data (as described previously)
     data_dict = {}
     items = single_line_data.split()
-    
-    # Iterate through each key-value pair
     for item in items:
         if ":" in item:
             key, value = item.split(":", 1)
             data_dict[key.strip()] = value.strip()
 
-    # Handle nested dictionary for 'COMPOSITION' specifically
+    # Handle nested structure
     data_dict['COMPOSITION'] = {
         'DPPC': {'NAME': 'DPPC', 'MAPPING': 'mappingDPPCcharmm.yaml'},
         'SOL': {'NAME': 'SOL', 'MAPPING': 'mappingSPCwater.yaml'},
@@ -19,10 +22,12 @@ def format_to_yaml(single_line_data):
         'CLA': {'NAME': 'CL', 'MAPPING': 'mappingCL.yaml'}
     }
 
-    # Convert dictionary to YAML format
-    formatted_yaml = yaml.dump(data_dict, sort_keys=False)
-    return formatted_yaml
+    # Write formatted data to output file
+    with open(output_file, 'w') as f:
+        yaml.dump(data_dict, f, sort_keys=False)
 
-# Example usage
-single_line_data = "DOI: 10.5281/zenodo.1009027 SOFTWARE: gromacs TRJ: DPPC_512_NaCl_150mM_325K_md.xtc TPR: DPPC_512_NaCl_150mM_325K_md.tpr PREEQTIME: 0 TIMELEFTOUT: 0 DIR_WRK: /media/osollila/Data/tmp/DATABANK/ PUBLICATION: null AUTHORS_CONTACT: Martinez-Seara, Hector SYSTEM: DPPC_512_NaCl_150mM_325K SOFTWARE_VERSION: 5.0.4 FF: CHARMM36 FF_SOURCE: CHARMM-GUI v1.6 FF_DATE: null CPT: DPPC_512_NaCl_150mM_325K_md.cpt LOG: null TOP: DPPC_512_NaCl_150mM_325K_md.top COMPOSITION: DPPC: NAME: DPPC MAPPING: mappingDPPCcharmm.yaml SOL: NAME: SOL MAPPING: mappingSPCwater.yaml SOD: NAME: NA MAPPING: mappingNA.yaml CLA: NAME: CL MAPPING: mappingCL.yaml"
-
+# Main script execution
+if __name__ == "__main__":
+    input_file = os.getenv("INPUT_FILE", "input.yaml")
+    output_file = os.getenv("OUTPUT_FILE", "temp.yaml")
+    format_to_yaml(input_file, output_file)
