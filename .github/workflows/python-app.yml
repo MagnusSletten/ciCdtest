@@ -7,23 +7,31 @@ on:
         type: string
 
 jobs:
-  push_yaml_file:
+  push_formatted_yaml:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Write YAML content to file
-        run: echo "${{ inputs.yaml_content }}" > temp.yaml
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Install PyYAML
+        run: pip install pyyaml
 
-      - name: Commit and Push `temp.yaml`
+      - name: Save input YAML to a temporary file
+        run: echo "${{ inputs.yaml_content }}" > input.yaml
+
+      - name: Run formatting script
+        run: python formatting.py
+        env:
+          INPUT_FILE: input.yaml
+          OUTPUT_FILE: temp.yaml
+
+      - name: Commit and push formatted YAML
         run: |
           git add temp.yaml
-          git commit -m "Add temp.yaml from workflow"
+          git commit -m "Add formatted YAML file from workflow"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
-
